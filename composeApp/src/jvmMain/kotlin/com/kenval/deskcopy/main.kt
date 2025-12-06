@@ -23,7 +23,7 @@ fun main() = application {
                     call.respond("Server responded!")
                 }
             }
-        }
+        }.start(wait = true)
     }
 
     Window(

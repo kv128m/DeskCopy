@@ -13,7 +13,7 @@ class TestRepository(
         return api.get {
             url {
                 protocol = URLProtocol.HTTP
-                host = "0.0.0.0"
+                host = "192.168.0.10:8080"
                 path("/")
             }
         }.body()
