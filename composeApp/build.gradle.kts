@@ -50,6 +50,14 @@ kotlin {
             implementation(libs.precompose.koin)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.json)
+            implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.logging)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.websockets)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -58,6 +66,8 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
+            implementation(libs.ktor.server.core)
+            implementation(libs.ktor.server.netty)
         }
     }
 }
@@ -88,6 +98,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
 
 dependencies {
     debugImplementation(compose.uiTooling)
