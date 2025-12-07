@@ -1,36 +1,18 @@
 package com.kenval.deskcopy
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Modifier
 import com.kenval.deskcopy.theme.DeskCopyTheme
+import com.kenval.deskcopy.ui.HomeScreen
 import moe.tlaster.precompose.PreComposeApp
-import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.rememberNavigator
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import org.koin.compose.koinInject
 
-@Composable
-fun Comp() {
-
-    val vm = koinViewModel<TestViewModel>()
-    val viewState = vm.state.collectAsState()
-    println(viewState.value)
-
-    Box(
-        modifier = Modifier.fillMaxSize()
-    ) {}
-}
-
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview
-fun App() {
-
-    val testRepo: TestRepository = koinInject()
-
+fun App(message: String = "") {
     PreComposeApp {
             val navigator = rememberNavigator()
             DeskCopyTheme {
@@ -39,30 +21,9 @@ fun App() {
                     initialRoute = "/home"
                 ) {
                     scene("/home") {
-                        Comp()
-
-
+                        HomeScreen()
                     }
                 }
             }
     }
-
 }
-
-
-//val testViewModel = koinViewModel<TestViewModel>()
-
-//                    Scaffold { paddingValues ->
-//                        Box(modifier = Modifier.padding(paddingValues), contentAlignment = Alignment.Center) {
-//                            Button(
-//                                onClick = {
-//                                    CoroutineScope(Dispatchers.IO).launch {
-//                                        val result = testRepo.getResponse()
-//                                        println(result)
-//                                    }
-//                                }
-//                            ) {
-//                                Text("Send to server")
-//                            }
-//                        }
-//                    }
