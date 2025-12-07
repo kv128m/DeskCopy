@@ -7,6 +7,12 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
+    alias(libs.plugins.buildConfig)
+}
+
+buildConfig {
+    buildConfigField("DEBUG", true)
+    buildConfigField("BASE_URL", "/192.168.0.10:8080/")
 }
 
 kotlin {
@@ -51,6 +57,7 @@ kotlin {
             implementation(libs.precompose.koin)
             implementation(project.dependencies.platform(libs.koin.bom))
             implementation(libs.koin.core)
+            implementation(libs.insert.koin.koin.compose)
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.json)
             implementation(libs.ktor.client.serialization)

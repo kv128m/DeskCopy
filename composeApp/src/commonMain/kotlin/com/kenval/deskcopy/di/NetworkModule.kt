@@ -1,5 +1,6 @@
 package com.kenval.deskcopy.di
 
+import DeskCopy.composeApp.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.LogLevel
@@ -25,11 +26,13 @@ val networkModule = module {
                 )
             }
 
-            install(Logging) {
-                level = LogLevel.ALL
-                logger = object : Logger {
-                    override fun log(message: String) {
-                        println(message)
+            if (BuildConfig.DEBUG) {
+                install(Logging) {
+                    level = LogLevel.ALL
+                    logger = object : Logger {
+                        override fun log(message: String) {
+                            println(message)
+                        }
                     }
                 }
             }
