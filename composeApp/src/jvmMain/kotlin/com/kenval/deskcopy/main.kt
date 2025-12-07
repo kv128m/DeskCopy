@@ -1,9 +1,5 @@
 package com.kenval.deskcopy
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.kenval.deskcopy.di.initKoin
@@ -19,12 +15,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.ProvidePreComposeLocals
+import org.koin.compose.koinInject
 
 fun main() = application {
 
     initKoin()
 
-    var message by remember { mutableStateOf("") }
+    val storage: Storage = koinInject()
 
     CoroutineScope(Dispatchers.IO).launch {
         embeddedServer(Netty, port = 8080) {
@@ -33,8 +30,8 @@ fun main() = application {
                     call.respond("Server responded!")
                 }
                 post("/message") {
-                    val clientMessage = call.receive<String>()
-                    message = clientMessage
+                    val message = call.receive<String>()
+                    storage.updateMessage(message)
                     call.respond(HttpStatusCode.OK)
                 }
             }
