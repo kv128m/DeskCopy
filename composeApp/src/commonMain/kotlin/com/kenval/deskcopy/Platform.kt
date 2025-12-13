@@ -1,7 +1,13 @@
 package com.kenval.deskcopy
 
-interface Platform {
-    val name: String
+sealed class Platform {
+
+    data object Android : Platform()
+
+    data object Desktop : Platform()
+
+    data object IOS : Platform()
+
 }
 
 expect fun getPlatform(): Platform
