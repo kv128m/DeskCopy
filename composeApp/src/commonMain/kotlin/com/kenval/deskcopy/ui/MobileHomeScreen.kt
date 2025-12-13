@@ -9,15 +9,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import com.kenval.deskcopy.TestRepository
+import com.kenval.deskcopy.MessageRepository
 import com.kenval.deskcopy.ui.component.ScaffoldMainScreen
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 
 @Composable
 fun MobileHomeScreen() {
-    val testRepo: TestRepository = koinInject()
 
+    val messageRepo: MessageRepository = koinInject()
     var message by remember { mutableStateOf("") }
     val coroutineScope = rememberCoroutineScope()
 
@@ -32,12 +32,14 @@ fun MobileHomeScreen() {
             onClick = {
                 coroutineScope.launch {
                     if (message.isNotBlank()) {
-                        testRepo.sendMessage(message)
+                        messageRepo.sendMessage(message)
                     }
                 }
             }
         ) {
             Text("Send to server")
         }
+
     }
+
 }
