@@ -10,7 +10,8 @@ import com.kenval.deskcopy.theme.primaryTextFieldColors
 fun PrimaryTextField(
     value: String,
     onValueChange: (String) -> Unit,
-    readOnly: Boolean = false
+    readOnly: Boolean = false,
+    placeholder: @Composable (() -> Unit)? = null
 ) {
     OutlinedTextField(
         value = value,
@@ -19,6 +20,7 @@ fun PrimaryTextField(
         colors = primaryTextFieldColors(),
         textStyle = TextStyle(
             fontFamily = mainFont()
-        )
+        ),
+        placeholder = placeholder
     )
 }

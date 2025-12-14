@@ -1,24 +1,22 @@
-package com.kenval.deskcopy
+package com.kenval.deskcopy.data.source.remote
 
-import DeskCopy.composeApp.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.URLProtocol
 import io.ktor.http.path
 
-class MessageRepository(
+class MessageRemoteSourceImpl(
     private val api: HttpClient
-) {
-    suspend fun sendMessage(message: String) {
+) : MessageRemoteSource {
+    override suspend fun sendMessage(message: String, ipAddress: String) {
         api.post {
             url {
                 protocol = URLProtocol.HTTP
-                host = BuildConfig.BASE_URL
+                host = "/$ipAddress:8080/"
                 path("message")
                 setBody(message)
             }
         }
     }
 }
-
