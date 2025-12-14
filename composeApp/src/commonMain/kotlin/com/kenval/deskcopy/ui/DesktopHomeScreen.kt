@@ -1,11 +1,12 @@
 package com.kenval.deskcopy.ui
 
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalUriHandler
 import com.kenval.deskcopy.Storage
+import com.kenval.deskcopy.ui.component.LargeTitleText
+import com.kenval.deskcopy.ui.component.PrimaryTextField
 import com.kenval.deskcopy.ui.component.ScaffoldMainScreen
 import org.koin.compose.koinInject
 
@@ -25,7 +26,8 @@ fun DesktopHomeScreen() {
     }
 
     ScaffoldMainScreen {
-        OutlinedTextField(
+        LargeTitleText("DeskCopy")
+        PrimaryTextField(
             value = message,
             onValueChange = {},
             readOnly = true

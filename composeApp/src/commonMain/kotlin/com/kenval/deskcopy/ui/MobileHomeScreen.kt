@@ -1,8 +1,5 @@
 package com.kenval.deskcopy.ui
 
-import androidx.compose.material3.Button
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -10,6 +7,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import com.kenval.deskcopy.MessageRepository
+import com.kenval.deskcopy.ui.component.LargeTitleText
+import com.kenval.deskcopy.ui.component.PrimaryButton
+import com.kenval.deskcopy.ui.component.PrimaryTextField
 import com.kenval.deskcopy.ui.component.ScaffoldMainScreen
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
@@ -23,22 +23,23 @@ fun MobileHomeScreen() {
 
     ScaffoldMainScreen {
 
-        OutlinedTextField(
+        LargeTitleText("DeskCopy")
+
+        PrimaryTextField(
             value = message,
             onValueChange = { message = it }
         )
 
-        Button(
+        PrimaryButton(
             onClick = {
                 coroutineScope.launch {
                     if (message.isNotBlank()) {
                         messageRepo.sendMessage(message)
                     }
                 }
-            }
-        ) {
-            Text("Send to server")
-        }
+            },
+            text = "Send"
+        )
 
     }
 

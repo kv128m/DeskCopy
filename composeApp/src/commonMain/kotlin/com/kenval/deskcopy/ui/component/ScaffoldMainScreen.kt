@@ -11,12 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.kenval.deskcopy.theme.AppStyle
 
 @Composable
 fun ScaffoldMainScreen(
     content: @Composable () -> Unit
 ) {
-    Scaffold { paddingValues ->
+    Scaffold(
+        containerColor = AppStyle.Colors.background,
+        contentColor = AppStyle.Colors.content
+    ) { paddingValues ->
         Box(
             modifier = Modifier
                 .padding(paddingValues)
