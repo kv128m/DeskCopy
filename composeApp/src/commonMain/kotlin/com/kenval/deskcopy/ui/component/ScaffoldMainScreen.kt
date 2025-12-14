@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.kenval.deskcopy.effects.snowfall.SnowOverlay
 import com.kenval.deskcopy.theme.AppStyle
 
 @Composable
@@ -27,6 +28,8 @@ fun ScaffoldMainScreen(
                 .fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {
+            SnowOverlay()
+
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.spacedBy(12.dp),
