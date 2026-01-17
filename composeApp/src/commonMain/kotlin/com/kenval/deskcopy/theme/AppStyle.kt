@@ -2,6 +2,7 @@ package com.kenval.deskcopy.theme
 
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.CheckboxColors
 import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -18,6 +19,7 @@ object AppStyle {
         val content = Color(0xffffffff)
         val unfocusedBorder = Color(0xff0f96c7)
         val focusedBorder = Color(0xff0fb5f1)
+        val darkText = Color(0xff0a0a0a)
     }
 
 }
@@ -44,6 +46,22 @@ fun primaryButtonColors() = ButtonColors(
     contentColor = AppStyle.Colors.content,
     disabledContainerColor = AppStyle.Colors.focusedBorder.copy(alpha = 0.2f),
     disabledContentColor = AppStyle.Colors.content.copy(alpha = 0.2f)
+)
+
+@Composable
+fun primaryCheckboxColors() = CheckboxColors(
+    checkedCheckmarkColor = AppStyle.Colors.content,
+    uncheckedCheckmarkColor = AppStyle.Colors.background,
+    checkedBoxColor = AppStyle.Colors.focusedBorder,
+    uncheckedBoxColor = AppStyle.Colors.background,
+    checkedBorderColor = AppStyle.Colors.focusedBorder,
+    uncheckedBorderColor = AppStyle.Colors.unfocusedBorder,
+    disabledCheckedBoxColor = AppStyle.Colors.darkText,
+    disabledUncheckedBoxColor = AppStyle.Colors.darkText,
+    disabledIndeterminateBoxColor = AppStyle.Colors.darkText,
+    disabledBorderColor = AppStyle.Colors.darkText,
+    disabledUncheckedBorderColor = AppStyle.Colors.darkText,
+    disabledIndeterminateBorderColor = AppStyle.Colors.darkText,
 )
 
 @Composable

@@ -123,6 +123,9 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "com.kenval.deskcopy"
             packageVersion = "1.0.0"
+            linux {
+                iconFile.set(project.file("src/commonMain/composeResources/drawable/desk_copy_icon.png"))
+            }
         }
     }
 }

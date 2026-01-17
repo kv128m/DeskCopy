@@ -16,13 +16,26 @@ class HomeViewModel(
     private val _state = MutableStateFlow(HomeViewState.EMPTY)
     val state get() = _state.asStateFlow()
 
+    fun onEntered() {
+        update {
+            val ip = repository.getIpAddress()
+            ip?.let {
+                copy(ipAddress = it)
+            } ?: copy()
+        }
+    }
+
     fun onMessageChange(message: String) {
         update { copy(message = message) }
     }
 
     fun onMessageSendConfirm() {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.sendMessage(_state.value.message)
+            try {
+                repository.sendMessage(_state.value.message)
+            } catch (_: Exception) {
+                update { copy(statusMessage = "Cannot connect to the local IP address. Check if it is a valid address.") }
+            }
         }
     }
 
@@ -38,7 +51,12 @@ class HomeViewModel(
         update { copy(settingsExpanded = false) }
         viewModelScope.launch(Dispatchers.IO) {
             repository.saveIpAddress(_state.value.ipAddress)
+            update { copy(statusMessage = "IP address has been saved.")}
         }
+    }
+
+    fun resetStatusMessage() {
+        update { copy(statusMessage = null) }
     }
 
     private fun update(updateViewState: HomeViewState.() -> HomeViewState) {
