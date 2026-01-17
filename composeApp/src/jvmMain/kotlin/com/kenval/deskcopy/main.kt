@@ -40,7 +40,7 @@ fun main() = application {
 
     Window(
         onCloseRequest = ::exitApplication,
-        title = "DeskCopy",
+        title = "DeskCopy"
     ) {
         ProvidePreComposeLocals {
             App()
