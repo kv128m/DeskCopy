@@ -39,6 +39,16 @@ class HomeViewModel(
         }
     }
 
+    fun subscribeToMessages() {
+        viewModelScope.launch {
+            try {
+                repository.subscribeToMessages()
+            } catch (_: Exception) {
+
+            }
+        }
+    }
+
     fun onSettingsClick() {
         update { copy(settingsExpanded = !settingsExpanded) }
     }

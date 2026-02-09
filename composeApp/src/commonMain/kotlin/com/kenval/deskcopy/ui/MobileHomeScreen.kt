@@ -43,6 +43,10 @@ fun MobileHomeScreen(
         viewModel.resetStatusMessage()
     }
 
+    LaunchedEffect(Unit) {
+        viewModel.subscribeToMessages()
+    }
+
     ScaffoldMainScreen(
         snackbarState = snackbarState
     ) {

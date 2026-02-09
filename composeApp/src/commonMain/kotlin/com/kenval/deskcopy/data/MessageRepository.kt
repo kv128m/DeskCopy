@@ -14,6 +14,13 @@ class MessageRepository(
         }
     }
 
+    suspend fun subscribeToMessages() {
+        val ipAddress = localSource.getIpAddress()
+        ipAddress?.let {
+            remoteSource.subscribeToMessages(ipAddress)
+        }
+    }
+
     fun saveIpAddress(ipAddress: String) {
         localSource.saveIpAddress(ipAddress)
     }
