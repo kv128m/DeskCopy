@@ -3,6 +3,8 @@ package com.kenval.deskcopy
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import com.kenval.deskcopy.di.initKoin
+import deskcopy.composeapp.generated.resources.Res
+import deskcopy.composeapp.generated.resources.desk_copy_icon
 import io.ktor.http.HttpStatusCode
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.server.application.install
@@ -20,60 +22,64 @@ import io.ktor.websocket.readText
 import io.ktor.websocket.send
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import moe.tlaster.precompose.ProvidePreComposeLocals
+import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
-fun main() = application {
+fun main() {
 
     initKoin()
 
-    val storage: Storage = koinInject()
+    application {
 
-    CoroutineScope(Dispatchers.IO).launch {
-        embeddedServer(Netty, port = 8080) {
-            install(WebSockets) {
-                pingPeriodMillis = 20000L
-                timeoutMillis = 20000L
-                maxFrameSize = Long.MAX_VALUE
-                masking = false
-                contentConverter = KotlinxWebsocketSerializationConverter(Json)
-            }
+        val storage: Storage = koinInject()
 
-            routing {
-                get("/") {
-                    call.respond("Server responded!")
+        CoroutineScope(Dispatchers.IO).launch {
+            embeddedServer(Netty, port = 8080) {
+                install(WebSockets) {
+                    pingPeriodMillis = 20000L
+                    timeoutMillis = 20000L
+                    maxFrameSize = Long.MAX_VALUE
+                    masking = false
+                    contentConverter = KotlinxWebsocketSerializationConverter(Json)
                 }
-                post("/message") {
-                    val message = call.receive<String>()
-                    storage.updateMessage(message)
-                    call.respond(HttpStatusCode.OK)
-                }
-                webSocket("/message-two-way") {
-                    launch {
-                        storage.message.collect {
-                            send(it)
+
+                routing {
+                    get("/") {
+                        call.respond("Server responded!")
+                    }
+                    post("/message") {
+                        val message = call.receive<String>()
+                        storage.updateMessage(message)
+                        call.respond(HttpStatusCode.OK)
+                    }
+                    webSocket("/message-two-way") {
+                        launch {
+                            storage.message.collect {
+                                send(it)
+                            }
+                        }
+                        for (frame in incoming) {
+                            if (frame is Frame.Text) {
+                                val receivedText = frame.readText()
+                                storage.updateMirrorMessage(receivedText)
+                            }
                         }
                     }
-                    for (frame in incoming) {
-                        if (frame is Frame.Text) {
-                            val receivedText = frame.readText()
-                            storage.updateMirrorMessage(receivedText)
-                        }
-                    }
                 }
-            }
-        }.start(wait = true)
-    }
+            }.start(wait = true)
+        }
 
-    Window(
-        onCloseRequest = ::exitApplication,
-        title = "DeskCopy"
-    ) {
-        ProvidePreComposeLocals {
-            App()
+        Window(
+            onCloseRequest = ::exitApplication,
+            title = "DeskCopy",
+            icon = painterResource(Res.drawable.desk_copy_icon)
+        ) {
+            ProvidePreComposeLocals {
+                App()
+            }
         }
     }
 }

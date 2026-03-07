@@ -19,8 +19,6 @@ class HomeViewModel(
     private val _state = MutableStateFlow(HomeViewState.EMPTY)
     val state get() = _state.asStateFlow()
 
-    private val _mirrorMessage = MutableStateFlow("")
-    //val mirrorMessage get() = _mirrorMessage.asStateFlow()
     val mirrorMessage get() = mirrorMessageStorage.message
 
     fun onEntered() {
@@ -38,7 +36,6 @@ class HomeViewModel(
 
     fun onMirrorMessageChange(message: String) {
         viewModelScope.launch {
-            _mirrorMessage.emit(message)
             mirrorMessageStorage.message.emit(message)
         }
     }

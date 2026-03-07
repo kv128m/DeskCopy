@@ -122,11 +122,17 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "com.kenval.deskcopy"
+            packageName = "DeskCopy"
             packageVersion = "1.0.0"
             linux {
                 iconFile.set(project.file("src/commonMain/composeResources/drawable/desk_copy_icon.png"))
+                shortcut = true
             }
         }
     }
+}
+
+compose.resources {
+    publicResClass = true
+    generateResClass = always
 }
