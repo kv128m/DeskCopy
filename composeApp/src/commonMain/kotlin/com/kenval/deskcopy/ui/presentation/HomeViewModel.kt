@@ -1,6 +1,7 @@
 package com.kenval.deskcopy.ui.presentation
 
 import com.kenval.deskcopy.data.MessageRepository
+import com.kenval.deskcopy.data.source.remote.MirrorMessageStorage
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,13 +9,19 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import moe.tlaster.precompose.viewmodel.ViewModel
+import moe.tlaster.precompose.viewmodel.viewModel
 import moe.tlaster.precompose.viewmodel.viewModelScope
 
 class HomeViewModel(
-    private val repository: MessageRepository
+    private val repository: MessageRepository,
+    private val mirrorMessageStorage: MirrorMessageStorage
 ) : ViewModel() {
     private val _state = MutableStateFlow(HomeViewState.EMPTY)
     val state get() = _state.asStateFlow()
+
+    private val _mirrorMessage = MutableStateFlow("")
+    //val mirrorMessage get() = _mirrorMessage.asStateFlow()
+    val mirrorMessage get() = mirrorMessageStorage.message
 
     fun onEntered() {
         update {
@@ -27,6 +34,13 @@ class HomeViewModel(
 
     fun onMessageChange(message: String) {
         update { copy(message = message) }
+    }
+
+    fun onMirrorMessageChange(message: String) {
+        viewModelScope.launch {
+            _mirrorMessage.emit(message)
+            mirrorMessageStorage.message.emit(message)
+        }
     }
 
     fun onMessageSendConfirm() {

@@ -20,6 +20,7 @@ import io.ktor.websocket.readText
 import io.ktor.websocket.send
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import moe.tlaster.precompose.ProvidePreComposeLocals
@@ -51,10 +52,15 @@ fun main() = application {
                     call.respond(HttpStatusCode.OK)
                 }
                 webSocket("/message-two-way") {
+                    launch {
+                        storage.message.collect {
+                            send(it)
+                        }
+                    }
                     for (frame in incoming) {
                         if (frame is Frame.Text) {
                             val receivedText = frame.readText()
-                            send("Received text frame: $receivedText")
+                            storage.updateMirrorMessage(receivedText)
                         }
                     }
                 }

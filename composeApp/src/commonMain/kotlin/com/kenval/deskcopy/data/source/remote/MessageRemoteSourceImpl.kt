@@ -10,9 +10,17 @@ import io.ktor.http.path
 import io.ktor.websocket.Frame
 import io.ktor.websocket.readText
 import io.ktor.websocket.send
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+
+class MirrorMessageStorage {
+    val message = MutableStateFlow("")
+}
 
 class MessageRemoteSourceImpl(
-    private val client: HttpClient
+    private val client: HttpClient,
+    private val mirrorMessageStorage: MirrorMessageStorage
 ) : MessageRemoteSource {
     override suspend fun sendMessage(message: String, ipAddress: String) {
         client.post {
@@ -31,10 +39,15 @@ class MessageRemoteSourceImpl(
             host = "/$ipAddress:8080/",
             path = "message-two-way"
         ) {
-            send("Subscribed to desktop!")
+            launch {
+                mirrorMessageStorage.message.collect {
+                    send(it)
+                }
+            }
             for (frame in incoming) {
                 frame as? Frame.Text ?: continue
-                println("Received: ${frame.readText()}")
+                val receivedText = frame.readText()
+                mirrorMessageStorage.message.emit(receivedText)
             }
         }
     }

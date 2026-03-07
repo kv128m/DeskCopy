@@ -9,6 +9,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -29,6 +30,7 @@ fun MobileHomeScreen(
     viewModel: HomeViewModel = koinViewModel()
 ) {
     val viewState = viewModel.state.collectAsState().value
+    val mirrorMessage by viewModel.mirrorMessage.collectAsState()
     val snackbarState = remember { SnackbarHostState() }
     val statusMessage = viewState.statusMessage
 
@@ -94,6 +96,11 @@ fun MobileHomeScreen(
                 text = "Confirm"
             )
         }
+
+        PrimaryTextField(
+            value = mirrorMessage,
+            onValueChange = { viewModel.onMirrorMessageChange(it) }
+        )
 
     }
 
