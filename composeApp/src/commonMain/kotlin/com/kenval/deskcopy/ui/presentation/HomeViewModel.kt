@@ -1,5 +1,7 @@
 package com.kenval.deskcopy.ui.presentation
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kenval.deskcopy.data.MessageRepository
 import com.kenval.deskcopy.data.source.remote.MirrorMessageStorage
 import kotlinx.coroutines.Dispatchers
@@ -8,9 +10,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import moe.tlaster.precompose.viewmodel.ViewModel
-import moe.tlaster.precompose.viewmodel.viewModel
-import moe.tlaster.precompose.viewmodel.viewModelScope
 
 class HomeViewModel(
     private val repository: MessageRepository,

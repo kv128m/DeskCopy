@@ -24,7 +24,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
-import moe.tlaster.precompose.ProvidePreComposeLocals
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
@@ -77,9 +76,7 @@ fun main() {
             title = "DeskCopy",
             icon = painterResource(Res.drawable.desk_copy_icon)
         ) {
-            ProvidePreComposeLocals {
-                App()
-            }
+            App()
         }
     }
 }
