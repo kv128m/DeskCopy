@@ -22,8 +22,8 @@ import com.kenval.deskcopy.ui.component.ScaffoldMainScreen
 import com.kenval.deskcopy.ui.presentation.HomeViewModel
 import deskcopy.composeapp.generated.resources.Res
 import deskcopy.composeapp.generated.resources.ic_settings
-import moe.tlaster.precompose.koin.koinViewModel
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MobileHomeScreen(
